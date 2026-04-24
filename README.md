@@ -9,7 +9,7 @@
 
 如果后续要换一个新的交互 agent 聊天框来接管系统，请优先阅读：
 
-- [INTERACTION_AGENT_GUIDE.md](/F:/AI_Agent/INTERACTION_AGENT_GUIDE.md)
+- [INTERACTION_AGENT_GUIDE.md](//AI_Agent/INTERACTION_AGENT_GUIDE.md)
 
 这份手册会说明：
 - 应该通过哪些 API/命令与系统交互
@@ -30,7 +30,7 @@
 
 2. `Planner Agent`
 - 长期记忆：赛道、关键词、负面过滤词、渠道开关
-- 短期记忆：每天读取日报策略（默认 `F:\AI_Agent\data\daily_strategy.txt`）
+- 短期记忆：每天读取日报策略（默认 `\AI_Agent\data\daily_strategy.txt`）
 - 反馈学习：根据人类反馈更新偏好和渠道开关
 - 记忆压缩：定期去重压缩
 - 现在已升级成四层 memory schema：
@@ -160,7 +160,7 @@
 6. `SQL Storage`
 - 主数据和消息日志都落在 PostgreSQL 里
 - 线索、评分、反馈、长短期记忆、OpenClaw 会话消息都可查
-- 数据库连接会优先读取 `F:\AI_Agent\postgresSQL\.env`，也支持根目录 `.env`
+- 数据库连接会优先读取 `\AI_Agent\postgresSQL\.env`，也支持根目录 `.env`
 
 ## 1.1 代码目录（按功能分类）
 
@@ -177,7 +177,7 @@ app/agents/
 
 现在默认策略文件也已经改成项目根目录绝对路径：
 
-- `F:\AI_Agent\data\daily_strategy.txt`
+- `\AI_Agent\data\daily_strategy.txt`
 - 如果你想换成别的策略文件，也可以通过环境变量覆盖 `daily_strategy_file`
 
 ## 2. 技术栈
@@ -202,7 +202,7 @@ pip install -r requirements.txt
 如果你在这台 Windows 机器上跑实盘搜索（Brave / Bocha），当前环境下建议用**管理员 PowerShell**启动后端：
 
 ```powershell
-cd F:\AI_Agent
+cd \AI_Agent
 python run_server.py
 ```
 
@@ -211,7 +211,7 @@ python run_server.py
 ```powershell
 # 1) 用管理员身份打开 PowerShell
 # 2) 进入项目目录
-cd F:\AI_Agent
+cd \AI_Agent
 
 # 3) （可选）先确认 8000 是否已有旧进程
 Get-NetTCPConnection -LocalPort 8000 -ErrorAction SilentlyContinue | Format-Table -AutoSize
@@ -429,7 +429,7 @@ copy .env.example .env
 ```
 
 你至少需要检查这些字段：
-- `DATABASE_URL`（PostgreSQL/Neon 连接串，已经可以放在 `F:\AI_Agent\postgresSQL\.env`）
+- `DATABASE_URL`（PostgreSQL/Neon 连接串，已经可以放在 `\AI_Agent\postgresSQL\.env`）
 - `DEMO_MODE=false`（实盘模式，不再生成 demo 假数据；如果没有 API key，搜索会返回空结果）
 - 启动时会自动清理历史 demo 污染的 `example.com` 旧记录，避免推荐列表混入假数据
 - `BRAVE_API_KEY`（接真实 Brave 时填写）
@@ -546,7 +546,7 @@ curl -X POST http://127.0.0.1:8000/openclaw/outbox/ack \
 
 如果你重启电脑后想重新把整套链路拉起来，请看这份一步一步的恢复指南：
 
-- [OpenClaw 重启恢复指南](F:/AI_Agent/openclaw_reboot_guide.md)
+- [OpenClaw 重启恢复指南](/AI_Agent/openclaw_reboot_guide.md)
 
 这份指南会告诉你重启后要先开 OpenClaw gateway，再开 `python run_server.py`，最后去 Telegram 发 `run_cycle`。
 
@@ -715,7 +715,7 @@ Protect AI for AI Agent Security 的公司名是 Protect AI
 
 系统会把这类纠错记忆写入：
 
-- `F:\AI_Agent\data\company_name_feedback.json`
+- `\AI_Agent\data\company_name_feedback.json`
 
 后续在搜索和主体核验时，会优先参考这份文件，尽量把噪音字段过滤掉，并把标题里的公司名归一成标准名。
 

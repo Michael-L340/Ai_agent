@@ -1,0 +1,160 @@
+运行报告（示例｜MVP成功运行样例）
+
+运行时间：
+2026-04-24 00:51:49（America/New_York）
+
+运行状态：
+partial_success（部分成功）
+
+一、整体执行情况
+
+本轮系统已成功完成以下流程：
+- Planner 正常生成搜索策略
+- Searching 成功获取外部数据（部分渠道）
+- Entity Verification 部分完成
+- DD（尽职调查）部分执行
+- 运行诊断完整返回
+
+但未完全完成以下流程：
+- DD 未完全收口（存在 waiting_human）
+- Scoring 未执行（无可评分对象）
+- Recommendation 未生成
+
+因此，本轮判定为：部分成功运行，而非完整成功。
+
+---
+
+二、数据获取情况
+
+本轮共获取数据：
+- searched_items：125
+- new_data_fetched：true
+- new_leads：0
+
+渠道表现：
+- bocha：成功（返回 125 条数据）
+- brave：失败（quota_exhausted，HTTP 402）
+
+结论：
+系统成功获取新数据，但依赖单一数据源，存在稳定性风险。
+
+---
+
+三、实体识别（Entity Verification）
+
+本轮实体识别结果：
+- verified：0
+- likely_company：8
+- pending_review：2
+- rejected：5
+- 未处理：110（由于超时）
+
+问题：
+- 识别过程未完全执行（超时）
+- verified 公司数量为 0
+- 噪音较多（文章页 / 方案页 / 论文）
+
+---
+
+四、DD（尽职调查）阶段
+
+输入数量：
+- input_count：5
+
+输出情况：
+- dd_partial：0
+- dd_waiting_human：2
+- dd_questions：2
+
+问题：
+- DD 阶段发生超时
+- 有效公司未完成 DD
+- 部分对象进入人工等待状态
+
+---
+
+五、评分与推荐结果
+
+本轮评分情况：
+- scored：0
+
+推荐结果：
+- recommended：0
+
+原因：
+- 无 verified + dd_ready 对象
+- scoring 阶段被跳过
+
+---
+
+六、数据质量分析
+
+当前数据主要问题：
+
+1. 噪音较多
+- 产品介绍页
+- 云厂商解决方案页
+- 技术文档
+- 学术论文
+
+2. 主体识别错误
+- 将概念、标题误识别为公司
+
+---
+
+七、候选分析（人工初筛）
+
+较可能为真实公司的候选：
+
+1. Temporal
+- 较成熟公司
+- 需验证是否属于 agent security 赛道
+
+2. AgentLISA
+- 更像真实项目
+- 偏 Web3 / 合约安全
+- 与主赛道相关性需确认
+
+---
+
+八、明显非公司主体（应过滤）
+
+- HSS（华为云产品页）
+- KMS（阿里云文档）
+- AgentSpec（论文）
+- Agent Runtime（方案页）
+- Threats（研究标题）
+
+---
+
+九、结论
+
+本轮运行：
+
+已完成：
+- 数据获取（成功）
+- 部分实体识别
+- 部分 DD
+
+未完成：
+- 有效公司验证
+- DD 收口
+- 评分
+- 推荐输出
+
+最终判断：
+
+本轮未产出可直接用于投资决策的公司列表，但成功获取了一批可进一步筛选的潜在线索。
+
+---
+
+十、下一步建议
+
+1. 提升 entity verification 效率（避免超时）
+2. 降低 DD 进入 waiting_human 的比例
+3. 引入 likely_company 进入 scoring（MVP模式）
+4. 优化噪音过滤规则
+5. 修复 Brave 配额问题，提高数据源稳定性
+
+---
+
